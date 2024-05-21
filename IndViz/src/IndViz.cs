@@ -15,6 +15,8 @@ namespace IndViz
         public static IndVizOutputs Execute(Dictionary<string, Model> inputModels, IndVizInputs input)
         {
             // Your code here.
+          
+            var gw = input.GigaWatts;
             var height = 1.0;
             var volume = input.Length * input.Width * height;
             var output = new IndVizOutputs(volume);

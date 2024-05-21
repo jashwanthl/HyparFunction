@@ -8,13 +8,33 @@
   "input_schema": {
     "type": "object",
     "properties": {
+      "GigaWatts": {
+        "multipleOf": 1,
+        "default": 50,
+        "maximum": 59,
+        "description": "Production Capacity",
+        "type": "number",
+        "$hyparOrder": 0,
+        "$hyparUnitType": "none",
+        "minimum": 19
+      },
+      "ConstructionYear": {
+        "multipleOf": 1,
+        "default": 2026,
+        "maximum": 2055,
+        "description": "Year the construction will begin to account for inflation ( 4%)",
+        "type": "number",
+        "$hyparOrder": 1,
+        "$hyparUnitType": "none",
+        "minimum": 2025
+      },
       "Length": {
         "multipleOf": 1,
         "description": "The Length.",
         "maximum": 10,
         "type": "number",
         "$hyparUnitType": "length",
-        "$hyparOrder": 0,
+        "$hyparOrder": 2,
         "minimum": 1
       },
       "Width": {
@@ -23,7 +43,7 @@
         "maximum": 10,
         "type": "number",
         "$hyparUnitType": "length",
-        "$hyparOrder": 1,
+        "$hyparOrder": 3,
         "minimum": 1
       }
     }
@@ -34,9 +54,58 @@
       "name": "Volume",
       "description": "The volume.",
       "type": "number"
+    },
+    {
+      "unit_type": "area",
+      "name": "Area Required",
+      "description": "Estimated",
+      "type": "number"
+    },
+    {
+      "unit_type": "area",
+      "name": "Cell Bldg Area Req",
+      "description": "Estimated",
+      "type": "number"
+    },
+    {
+      "unit_type": "none",
+      "name": "Construction Cost",
+      "description": "Estimated in USD",
+      "type": "number"
+    },
+    {
+      "unit_type": "none",
+      "name": "Utility Power Capacity Req",
+      "description": "Estimated in MegaWatts",
+      "type": "number"
+    },
+    {
+      "unit_type": "none",
+      "name": "Nitrogen Use",
+      "description": "SCFM",
+      "type": "number"
+    },
+    {
+      "unit_type": "none",
+      "name": "Compressed air",
+      "description": "SCFM",
+      "type": "number"
+    },
+    {
+      "unit_type": "none",
+      "name": "MBH Nat. Gas Capacity",
+      "description": "Gas Capacity",
+      "type": "number"
+    },
+    {
+      "unit_type": "none",
+      "name": "Chilled water",
+      "description": "Tonnes",
+      "type": "number"
     }
   ],
   "repository_url": "https://github.com/hypar-io/function",
-  "last_updated": "2024-05-21T16:12:36.247862",
+  "filters": {},
+  "last_updated": "2024-05-21T17:56:47.790782",
   "cli_version": "1.10.0"
 }

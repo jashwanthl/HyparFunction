@@ -29,15 +29,17 @@ namespace IndViz
     {
         [Newtonsoft.Json.JsonConstructor]
         
-        public IndVizInputs(double @length, double @width, Dictionary<string, string> modelInputKeys, string gltfKey, string elementsKey, string ifcKey):
+        public IndVizInputs(double @gigaWatts, double @constructionYear, double @length, double @width, Dictionary<string, string> modelInputKeys, string gltfKey, string elementsKey, string ifcKey):
         base(modelInputKeys, gltfKey, elementsKey, ifcKey)
         {
             var validator = Validator.Instance.GetFirstValidatorForType<IndVizInputs>();
             if(validator != null)
             {
-                validator.PreConstruct(new object[]{ @length, @width});
+                validator.PreConstruct(new object[]{ @gigaWatts, @constructionYear, @length, @width});
             }
         
+            this.GigaWatts = @gigaWatts;
+            this.ConstructionYear = @constructionYear;
             this.Length = @length;
             this.Width = @width;
         
@@ -46,6 +48,16 @@ namespace IndViz
                 validator.PostConstruct(this);
             }
         }
+    
+        /// <summary>Production Capacity</summary>
+        [Newtonsoft.Json.JsonProperty("GigaWatts", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.Range(19D, 59D)]
+        public double GigaWatts { get; set; } = 50D;
+    
+        /// <summary>Year the construction will begin to account for inflation ( 4%)</summary>
+        [Newtonsoft.Json.JsonProperty("ConstructionYear", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [System.ComponentModel.DataAnnotations.Range(2025D, 2055D)]
+        public double ConstructionYear { get; set; } = 2026D;
     
         /// <summary>The Length.</summary>
         [Newtonsoft.Json.JsonProperty("Length", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
