@@ -49,12 +49,12 @@ namespace IndViz
     
         /// <summary>The Length.</summary>
         [Newtonsoft.Json.JsonProperty("Length", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [System.ComponentModel.DataAnnotations.Range(1.0D, 10.0D)]
+        [System.ComponentModel.DataAnnotations.Range(1D, 10D)]
         public double Length { get; set; }
     
         /// <summary>The Width.</summary>
         [Newtonsoft.Json.JsonProperty("Width", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [System.ComponentModel.DataAnnotations.Range(1.0D, 10.0D)]
+        [System.ComponentModel.DataAnnotations.Range(1D, 10D)]
         public double Width { get; set; }
     
     }
