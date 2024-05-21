@@ -2,26 +2,29 @@
   "$schema": "https://hypar.io/Schemas/Function.json",
   "id": "ad5615ef-ca92-4095-a2cd-886d07c6626b",
   "name": "IndViz",
+  "display_name": "IndViz",
   "description": "The IndViz function.",
   "language": "C#",
   "input_schema": {
     "type": "object",
     "properties": {
       "Length": {
-        "type": "number",
+        "multipleOf": 1,
         "description": "The Length.",
-        "minimum": 1.0,
-        "maximum": 10.0,
-        "multipleOf": 1.0,
-        "$hyparUnitType": "length"
+        "maximum": 10,
+        "type": "number",
+        "$hyparUnitType": "length",
+        "$hyparOrder": 0,
+        "minimum": 1
       },
       "Width": {
-        "type": "number",
+        "multipleOf": 1,
         "description": "The Width.",
-        "minimum": 1.0,
-        "maximum": 10.0,
-        "multipleOf": 1.0,
-        "$hyparUnitType": "length"
+        "maximum": 10,
+        "type": "number",
+        "$hyparUnitType": "length",
+        "$hyparOrder": 1,
+        "minimum": 1
       }
     }
   },
@@ -34,6 +37,6 @@
     }
   ],
   "repository_url": "https://github.com/hypar-io/function",
-  "last_updated": "0001-01-01T00:00:00",
+  "last_updated": "2024-05-21T16:09:32.619226",
   "cli_version": "1.10.0"
 }
