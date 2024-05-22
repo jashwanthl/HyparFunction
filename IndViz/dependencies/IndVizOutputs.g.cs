@@ -70,6 +70,24 @@ namespace IndViz
 		[JsonProperty("Chilled water")]
 		public double ChilledWater { get; set; }
 
+		/// <summary>
+		/// Percentages
+		/// </summary>
+		[JsonProperty("1% RH")]
+		public double RH { get; set; }
+
+		/// <summary>
+		/// Percentages
+		/// </summary>
+		[JsonProperty("10% RH")]
+		public double RH { get; set; }
+
+		/// <summary>
+		/// Percentages
+		/// </summary>
+		[JsonProperty("35% RH")]
+		public double RH { get; set; }
+
         /// <summary>
         /// Construct a IndVizOutputs with default inputs.
         /// This should be used for testing only.
@@ -83,7 +101,7 @@ namespace IndViz
         /// </summary>
         /// <returns></returns>
         [JsonConstructor]
-        public IndVizOutputs(double volume, double areaRequired, double cellBldgAreaReq, double constructionCost, double utilityPowerCapacityReq, double nitrogenUse, double compressedAir, double mBHNatGasCapacity, double chilledWater) : base()
+        public IndVizOutputs(double volume, double areaRequired, double cellBldgAreaReq, double constructionCost, double utilityPowerCapacityReq, double nitrogenUse, double compressedAir, double mBHNatGasCapacity, double chilledWater, double rH, double rH, double rH) : base()
         {
 			this.Volume = volume;
 			this.AreaRequired = areaRequired;
@@ -94,6 +112,9 @@ namespace IndViz
 			this.CompressedAir = compressedAir;
 			this.MBHNatGasCapacity = mBHNatGasCapacity;
 			this.ChilledWater = chilledWater;
+			this.RH = rH;
+			this.RH = rH;
+			this.RH = rH;
 
 		}
 

@@ -22,8 +22,12 @@ namespace IndViz
             var Cost = Area * 516.6449231;
             var CellArea = Area * 7.856666667;
             var chilledWater = input.GigaWatts * 552.695309;
+            var onePercent = Area * 0.146779239;
+            var tenPercent = Area * 0.059151171;
+            var thirtyFivePercent = Area * 0.087909453;
+;
             // Initialize output
-            var output = new IndVizOutputs(0, Area, CellArea, Cost, PowerCap, Nitrogen, CompressedAir, Gas, chilledWater);
+            var output = new IndVizOutputs(0, Area, CellArea, Cost, PowerCap, Nitrogen, CompressedAir, Gas, chilledWater,onePercent,tenPercent,thirtyFivePercent);
 
             // Define the height of the cubes
             var height = 1.0;

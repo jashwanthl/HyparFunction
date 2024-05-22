@@ -93,10 +93,29 @@
       "name": "Chilled water",
       "description": "Tonnes",
       "type": "number"
+    },
+    {
+      "unit_type": "none",
+      "name": "1% RH",
+      "description": "Percentages",
+      "type": "number"
+    },
+    {
+      "unit_type": "none",
+      "name": "10% RH",
+      "description": "Percentages",
+      "type": "number"
+    },
+    {
+      "unit_type": "none",
+      "name": "35% RH",
+      "description": "Percentages",
+      "type": "number"
     }
   ],
   "repository_url": "https://github.com/hypar-io/function",
+  "thumbnail_id": "6a349a21-61fd-4c62-86ce-2b89bc20daf4",
   "filters": {},
-  "last_updated": "2024-05-22T15:43:28.472116",
+  "last_updated": "2024-05-22T15:55:58.999737",
   "cli_version": "1.10.0"
 }
