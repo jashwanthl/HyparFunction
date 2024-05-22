@@ -22,6 +22,54 @@ namespace IndViz
 		[JsonProperty("Volume")]
 		public double Volume { get; set; }
 
+		/// <summary>
+		/// Estimated
+		/// </summary>
+		[JsonProperty("Area Required")]
+		public double AreaRequired { get; set; }
+
+		/// <summary>
+		/// Estimated
+		/// </summary>
+		[JsonProperty("Cell Bldg Area Req")]
+		public double CellBldgAreaReq { get; set; }
+
+		/// <summary>
+		/// Estimated in USD
+		/// </summary>
+		[JsonProperty("Construction Cost")]
+		public double ConstructionCost { get; set; }
+
+		/// <summary>
+		/// Estimated in MegaWatts
+		/// </summary>
+		[JsonProperty("Utility Power Capacity Req")]
+		public double UtilityPowerCapacityReq { get; set; }
+
+		/// <summary>
+		/// SCFM
+		/// </summary>
+		[JsonProperty("Nitrogen Use")]
+		public double NitrogenUse { get; set; }
+
+		/// <summary>
+		/// SCFM
+		/// </summary>
+		[JsonProperty("Compressed air")]
+		public double CompressedAir { get; set; }
+
+		/// <summary>
+		/// Gas Capacity
+		/// </summary>
+		[JsonProperty("MBH Nat. Gas Capacity")]
+		public double MBHNatGasCapacity { get; set; }
+
+		/// <summary>
+		/// Tonnes
+		/// </summary>
+		[JsonProperty("Chilled water")]
+		public double ChilledWater { get; set; }
+
         /// <summary>
         /// Construct a IndVizOutputs with default inputs.
         /// This should be used for testing only.
@@ -35,9 +83,17 @@ namespace IndViz
         /// </summary>
         /// <returns></returns>
         [JsonConstructor]
-        public IndVizOutputs(double volume) : base()
+        public IndVizOutputs(double volume, double areaRequired, double cellBldgAreaReq, double constructionCost, double utilityPowerCapacityReq, double nitrogenUse, double compressedAir, double mBHNatGasCapacity, double chilledWater) : base()
         {
 			this.Volume = volume;
+			this.AreaRequired = areaRequired;
+			this.CellBldgAreaReq = cellBldgAreaReq;
+			this.ConstructionCost = constructionCost;
+			this.UtilityPowerCapacityReq = utilityPowerCapacityReq;
+			this.NitrogenUse = nitrogenUse;
+			this.CompressedAir = compressedAir;
+			this.MBHNatGasCapacity = mBHNatGasCapacity;
+			this.ChilledWater = chilledWater;
 
 		}
 
