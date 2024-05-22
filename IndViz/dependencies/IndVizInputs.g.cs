@@ -29,18 +29,17 @@ namespace IndViz
     {
         [Newtonsoft.Json.JsonConstructor]
         
-        public IndVizInputs(double @gigaWatts, double @constructionYear, double @length, double @width, Dictionary<string, string> modelInputKeys, string gltfKey, string elementsKey, string ifcKey):
+        public IndVizInputs(double @gigaWatts, double @constructionYear, double @width, Dictionary<string, string> modelInputKeys, string gltfKey, string elementsKey, string ifcKey):
         base(modelInputKeys, gltfKey, elementsKey, ifcKey)
         {
             var validator = Validator.Instance.GetFirstValidatorForType<IndVizInputs>();
             if(validator != null)
             {
-                validator.PreConstruct(new object[]{ @gigaWatts, @constructionYear, @length, @width});
+                validator.PreConstruct(new object[]{ @gigaWatts, @constructionYear, @width});
             }
         
             this.GigaWatts = @gigaWatts;
             this.ConstructionYear = @constructionYear;
-            this.Length = @length;
             this.Width = @width;
         
             if(validator != null)
@@ -58,11 +57,6 @@ namespace IndViz
         [Newtonsoft.Json.JsonProperty("ConstructionYear", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.Range(2025D, 2055D)]
         public double ConstructionYear { get; set; } = 2026D;
-    
-        /// <summary>The Length.</summary>
-        [Newtonsoft.Json.JsonProperty("Length", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        [System.ComponentModel.DataAnnotations.Range(1D, 10D)]
-        public double Length { get; set; }
     
         /// <summary>The Width.</summary>
         [Newtonsoft.Json.JsonProperty("Width", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]

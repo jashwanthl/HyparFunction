@@ -8,7 +8,6 @@ The IndViz function.
 |---|---|---|
 |GigaWatts|number|Production Capacity|
 |ConstructionYear|number|Year the construction will begin to account for inflation ( 4%)|
-|Length|number|The Length.|
 |Width|number|The Width.|
 
 
