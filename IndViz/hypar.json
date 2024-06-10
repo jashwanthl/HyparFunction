@@ -27,15 +27,6 @@
         "$hyparOrder": 1,
         "$hyparUnitType": "none",
         "minimum": 2025
-      },
-      "Width": {
-        "multipleOf": 1,
-        "description": "The Width.",
-        "maximum": 10,
-        "type": "number",
-        "$hyparUnitType": "length",
-        "$hyparOrder": 2,
-        "minimum": 1
       }
     }
   },
@@ -116,6 +107,6 @@
   "repository_url": "https://github.com/hypar-io/function",
   "thumbnail_id": "6a349a21-61fd-4c62-86ce-2b89bc20daf4",
   "filters": {},
-  "last_updated": "2024-05-22T16:09:54.996898",
+  "last_updated": "2024-06-10T15:36:20.439164",
   "cli_version": "1.10.0"
 }

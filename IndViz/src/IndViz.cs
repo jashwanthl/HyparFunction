@@ -1,5 +1,6 @@
 using Elements;
 using Elements.Geometry;
+using Elements.Geometry.Solids;
 using System.Collections.Generic;
 
 namespace IndViz
@@ -47,6 +48,11 @@ namespace IndViz
                 new Material("Pink", new Color(1.0, 0.0, 1.0, 0.5)),
                 new Material("Cyan", new Color(0.0, 1.0, 1.0, 0.5))
             };
+            // Define labels for each cube
+            string[] labels = 
+            {
+                "Area 100", "Area 200", "Area 250", "Area 300", "Area 350", "Area 400", "Area 450", "Area 500"
+            };
 
             // Calculate the total volume based on the sum of individual lengths
             var totalLength = 0.0;
@@ -74,6 +80,10 @@ namespace IndViz
 
                 // Add the mass to the model
                 output.Model.AddElement(mass);
+
+                // Add a label to the mass
+                var label = new Annotation(labels[i], new Vector3(offsetX + lengths[i] / 2, 225, height + 1), Vector3.ZAxis, fontSize: 1.0);
+                output.Model.AddElement(label);
 
                 // Update the offset for the next cube
                 offsetX += lengths[i];
