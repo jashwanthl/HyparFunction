@@ -78,12 +78,11 @@ namespace IndViz
                 // Create the mass (cube) with the defined rectangle and height
                 var mass = new Mass(rectangle, height, materials[i]);
 
+                // Add the custom property (label) to the mass
+                mass.AdditionalProperties["Label"] = labels[i];
+
                 // Add the mass to the model
                 output.Model.AddElement(mass);
-
-                // Add a label to the mass
-                var label = new Annotation(labels[i], new Vector3(offsetX + lengths[i] / 2, 225, height + 1), Vector3.ZAxis, fontSize: 1.0);
-                output.Model.AddElement(label);
 
                 // Update the offset for the next cube
                 offsetX += lengths[i];
