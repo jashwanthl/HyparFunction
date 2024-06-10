@@ -96,19 +96,19 @@
     },
     {
       "unit_type": "none",
-      "name": "1% RH",
+      "name": "One Percent RH",
       "description": "Percentages",
       "type": "number"
     },
     {
       "unit_type": "none",
-      "name": "10% RH",
+      "name": "Ten Percent RH",
       "description": "Percentages",
       "type": "number"
     },
     {
       "unit_type": "none",
-      "name": "35% RH",
+      "name": "Thirty Five Percent RH",
       "description": "Percentages",
       "type": "number"
     }
@@ -116,6 +116,6 @@
   "repository_url": "https://github.com/hypar-io/function",
   "thumbnail_id": "6a349a21-61fd-4c62-86ce-2b89bc20daf4",
   "filters": {},
-  "last_updated": "2024-05-22T15:55:58.999737",
+  "last_updated": "2024-05-22T16:09:54.996898",
   "cli_version": "1.10.0"
 }

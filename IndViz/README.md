@@ -24,9 +24,9 @@ The IndViz function.
 |Compressed air|Number|SCFM|
 |MBH Nat. Gas Capacity|Number|Gas Capacity|
 |Chilled water|Number|Tonnes|
-|1% RH|Number|Percentages|
-|10% RH|Number|Percentages|
-|35% RH|Number|Percentages|
+|One Percent RH|Number|Percentages|
+|Ten Percent RH|Number|Percentages|
+|Thirty Five Percent RH|Number|Percentages|
 
 
 <br>

@@ -14,7 +14,7 @@ namespace IndViz
         /// <returns>A IndVizOutputs instance containing computed results and the model with any new elements.</returns>
         public static IndVizOutputs Execute(Dictionary<string, Model> inputModels, IndVizInputs input)
         {   
-            var Area = input.GigaWatts * 83911.75931;
+            var Area = input.GigaWatts * 83911.75931 * 0.092903;
             var Gas = input.GigaWatts * 11.91380039;
             var Nitrogen = input.GigaWatts * 10.45070994;
             var CompressedAir = input.GigaWatts * 1741.6473;
@@ -30,10 +30,10 @@ namespace IndViz
             var output = new IndVizOutputs(0, Area, CellArea, Cost, PowerCap, Nitrogen, CompressedAir, Gas, chilledWater,onePercent,tenPercent,thirtyFivePercent);
 
             // Define the height of the cubes
-            var height = 1.0;
+            var height = 20.0;
 
             // Define individual lengths for each cube
-            double[] lengths = { 2.0, 3.0, 1.5, 2.5, 4.0 };
+            double[] lengths = { Area*0.05331213567/450, Area*0.1066242713/450, Area*0.03267973856/450, Area*0.159936407/450, Area*0.108814697/450, Area*0.2132485427/450, Area*0.05882352941/450, Area*0.267973856/450};
 
             // Define individual colors for each cube
             Material[] materials = 
@@ -42,7 +42,10 @@ namespace IndViz
                 new Material("Green", new Color(0.0, 1.0, 0.0, 0.5)),
                 new Material("Blue", new Color(0.0, 0.0, 1.0, 0.5)),
                 new Material("Yellow", new Color(1.0, 1.0, 0.0, 0.5)),
-                new Material("Purple", new Color(0.5, 0.0, 0.5, 0.5))
+                new Material("Purple", new Color(0.5, 0.0, 0.5, 0.5)),
+                new Material("Orange", new Color(1.0, 0.5, 0.0, 0.5)),
+                new Material("Pink", new Color(1.0, 0.0, 1.0, 0.5)),
+                new Material("Cyan", new Color(0.0, 1.0, 1.0, 0.5))
             };
 
             // Calculate the total volume based on the sum of individual lengths
@@ -51,19 +54,19 @@ namespace IndViz
             {
                 totalLength += l;
             }
-            var volume = totalLength * input.Width * height;
+            var volume = totalLength * 450 * height;
 
             // Generate 5 cubes and add to the model
             double offsetX = 0.0;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 8; i++)
             {
                 // Define the rectangle for each cube using individual lengths
                 var rectangle = new Polygon(new List<Vector3>
                 {
                     new Vector3(offsetX, 0, 0),
                     new Vector3(offsetX + lengths[i], 0, 0),
-                    new Vector3(offsetX + lengths[i], input.Width, 0),
-                    new Vector3(offsetX, input.Width, 0)
+                    new Vector3(offsetX + lengths[i], 450, 0),
+                    new Vector3(offsetX, 450, 0)
                 });
 
                 // Create the mass (cube) with the defined rectangle and height
