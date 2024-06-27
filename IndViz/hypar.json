@@ -44,8 +44,8 @@
       "type": "number"
     },
     {
-      "unit_type": "area",
-      "name": "Cell Bldg Area Req",
+      "unit_type": "none",
+      "name": "Area Req in Acres",
       "description": "Estimated",
       "type": "number"
     },
@@ -107,6 +107,6 @@
   "repository_url": "https://github.com/hypar-io/function",
   "thumbnail_id": "6a349a21-61fd-4c62-86ce-2b89bc20daf4",
   "filters": {},
-  "last_updated": "2024-06-10T15:36:20.439164",
+  "last_updated": "2024-06-27T19:31:04.371476",
   "cli_version": "1.10.0"
 }
