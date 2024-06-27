@@ -21,7 +21,7 @@ namespace IndViz
             var CompressedAir = input.GigaWatts * 1741.6473;
             var PowerCap = input.GigaWatts * 2.972249627;
             var Cost = (Area * 516.6449231) / 0.092903;
-            var CellArea = Area/4047;
+            var CellArea = Math.Round(Area * 0.000247105,2);
             var chilledWater = input.GigaWatts * 552.695309;
             var onePercent = (Area * 0.146779239) / 0.092903;
             var tenPercent = (Area * 0.059151171) / 0.092903;

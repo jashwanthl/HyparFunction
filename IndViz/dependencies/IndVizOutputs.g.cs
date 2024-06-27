@@ -31,8 +31,8 @@ namespace IndViz
 		/// <summary>
 		/// Estimated
 		/// </summary>
-		[JsonProperty("Cell Bldg Area Req")]
-		public double CellBldgAreaReq { get; set; }
+		[JsonProperty("Area Req in Acres")]
+		public double AreaReqInAcres { get; set; }
 
 		/// <summary>
 		/// Estimated in USD
@@ -101,11 +101,11 @@ namespace IndViz
         /// </summary>
         /// <returns></returns>
         [JsonConstructor]
-        public IndVizOutputs(double volume, double areaRequired, double cellBldgAreaReq, double constructionCost, double utilityPowerCapacityReq, double nitrogenUse, double compressedAir, double mBHNatGasCapacity, double chilledWater, double onePercentRH, double tenPercentRH, double thirtyFivePercentRH) : base()
+        public IndVizOutputs(double volume, double areaRequired, double areaReqInAcres, double constructionCost, double utilityPowerCapacityReq, double nitrogenUse, double compressedAir, double mBHNatGasCapacity, double chilledWater, double onePercentRH, double tenPercentRH, double thirtyFivePercentRH) : base()
         {
 			this.Volume = volume;
 			this.AreaRequired = areaRequired;
-			this.CellBldgAreaReq = cellBldgAreaReq;
+			this.AreaReqInAcres = areaReqInAcres;
 			this.ConstructionCost = constructionCost;
 			this.UtilityPowerCapacityReq = utilityPowerCapacityReq;
 			this.NitrogenUse = nitrogenUse;

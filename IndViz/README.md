@@ -16,7 +16,7 @@ The IndViz function.
 |---|---|---|
 |Volume|Number|The volume.|
 |Area Required|Number|Estimated|
-|Cell Bldg Area Req|Number|Estimated|
+|Area Req in Acres|Number|Estimated|
 |Construction Cost|Number|Estimated in USD|
 |Utility Power Capacity Req|Number|Estimated in MegaWatts|
 |Nitrogen Use|Number|SCFM|
