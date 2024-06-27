@@ -15,7 +15,7 @@ namespace IndViz
         /// <returns>A IndVizOutputs instance containing computed results and the model with any new elements.</returns>
         public static IndVizOutputs Execute(Dictionary<string, Model> inputModels, IndVizInputs input)
         {   
-            var Area = input.GigaWatts * 83911.75931;
+            var Area = input.GigaWatts * 83911.75931 * 0.092903;
             var Gas = input.GigaWatts * 11.91380039;
             var Nitrogen = input.GigaWatts * 10.45070994;
             var CompressedAir = input.GigaWatts * 1741.6473;
