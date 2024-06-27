@@ -20,12 +20,12 @@ namespace IndViz
             var Nitrogen = input.GigaWatts * 10.45070994;
             var CompressedAir = input.GigaWatts * 1741.6473;
             var PowerCap = input.GigaWatts * 2.972249627;
-            var Cost = Area * 516.6449231;
-            var CellArea = Area/43560;
+            var Cost = (Area * 516.6449231) / 0.092903;
+            var CellArea = Area/4047;
             var chilledWater = input.GigaWatts * 552.695309;
-            var onePercent = Area * 0.146779239;
-            var tenPercent = Area * 0.059151171;
-            var thirtyFivePercent = Area * 0.087909453;
+            var onePercent = (Area * 0.146779239) / 0.092903;
+            var tenPercent = (Area * 0.059151171) / 0.092903;
+            var thirtyFivePercent = (Area * 0.087909453) / 0.092903;
 ;
             // Initialize output
             var output = new IndVizOutputs(0, Area, CellArea, Cost, PowerCap, Nitrogen, CompressedAir, Gas, chilledWater,onePercent,tenPercent,thirtyFivePercent);
