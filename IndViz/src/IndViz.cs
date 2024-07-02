@@ -70,7 +70,7 @@ namespace IndViz
             var totalHeight = height;
 
             // Define site dimensions and offset
-            var siteOffset = 70.0;
+            var siteOffset = 250.0;
             var siteLength = totalLength + 2 * siteOffset;
             var siteWidth = totalWidth + 2 * siteOffset;
 
