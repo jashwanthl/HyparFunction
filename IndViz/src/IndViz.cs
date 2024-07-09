@@ -8,8 +8,10 @@ namespace IndViz
 {
     public static class IndViz
     {
-        // Constants for the site
+        // Constants for the site and parking
         private static readonly Material SITE_MATERIAL = new Material("site", "#7ECD9F", 0.0f, 0.0f);
+        private static readonly Material PARKING_MATERIAL = new Material("parking", "#CCCCCC", 0.0f, 0.0f);
+        private static readonly Material CAR_MATERIAL = new Material("car", "#FF0000", 0.0f, 0.0f);
         private const string LEGACY_IDENTITY_PREFIX = "legacy";
 
         /// <summary>
@@ -70,7 +72,7 @@ namespace IndViz
             var totalHeight = height;
 
             // Define site dimensions and offset
-            var siteOffset = 250.0;
+            var siteOffset = 25.0;
             var siteLength = totalLength + 2 * siteOffset;
             var siteWidth = totalWidth + 2 * siteOffset;
 
@@ -115,6 +117,9 @@ namespace IndViz
                 offsetX += lengths[i];
             }
 
+            // Add parking lot
+            AddParkingLot(output.Model, siteBoundary, totalLength);
+
             // Set the output volume
             output.Volume = totalLength * totalWidth * totalHeight;
             return output;
@@ -133,6 +138,48 @@ namespace IndViz
                 AddId = LEGACY_IDENTITY_PREFIX
             };
             return site;
+        }
+
+        private static void AddParkingLot(Model model, Polygon siteBoundary, double buildingLength)
+        {
+            // Define parking lot dimensions and offset from the building
+            double parkingLotOffset = 10.0;
+            double parkingSpaceWidth = 2.5;
+            double parkingSpaceLength = 5.0;
+            int numberOfSpaces = 10; // Number of parking spaces
+
+            // Calculate the start position for the parking lot
+            double parkingLotStartX = -buildingLength / 2 + parkingLotOffset;
+            double parkingLotStartY = siteBoundary.Vertices[0].Y + parkingLotOffset;
+
+            for (int i = 0; i < numberOfSpaces; i++)
+            {
+                // Calculate the position for each parking space
+                double x = parkingLotStartX + (i % 10) * parkingSpaceWidth;
+                double y = parkingLotStartY + (i / 10) * parkingSpaceLength;
+
+                // Define the rectangle for each parking space
+                var parkingSpace = new Polygon(new List<Vector3>
+                {
+                    new Vector3(x, y, 0),
+                    new Vector3(x + parkingSpaceWidth, y, 0),
+                    new Vector3(x + parkingSpaceWidth, y + parkingSpaceLength, 0),
+                    new Vector3(x, y + parkingSpaceLength, 0)
+                });
+
+                // Create the parking space mass
+                var parkingMass = new Mass(parkingSpace, 0.1, PARKING_MATERIAL);
+
+                // Add the parking space to the model
+                model.AddElement(parkingMass);
+
+                // Optionally add cars to some of the parking spaces
+                if (i % 2 == 0)
+                {
+                    var car = new Mass(parkingSpace, 1.5, CAR_MATERIAL);
+                    model.AddElement(car);
+                }
+            }
         }
     }
 
