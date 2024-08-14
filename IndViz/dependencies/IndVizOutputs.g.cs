@@ -38,7 +38,7 @@ namespace IndViz
 		/// Estimated in USD
 		/// </summary>
 		[JsonProperty("Construction Cost")]
-		public double ConstructionCost { get; set; }
+		public string ConstructionCost { get; set; }
 
 		/// <summary>
 		/// Estimated in MegaWatts
@@ -101,7 +101,7 @@ namespace IndViz
         /// </summary>
         /// <returns></returns>
         [JsonConstructor]
-        public IndVizOutputs(double volume, double areaRequired, double areaReqInAcres, double constructionCost, double utilityPowerCapacityReq, double nitrogenUse, double compressedAir, double mBHNatGasCapacity, double chilledWater, double onePercentRH, double tenPercentRH, double thirtyFivePercentRH) : base()
+        public IndVizOutputs(double volume, double areaRequired, double areaReqInAcres, string constructionCost, double utilityPowerCapacityReq, double nitrogenUse, double compressedAir, double mBHNatGasCapacity, double chilledWater, double onePercentRH, double tenPercentRH, double thirtyFivePercentRH) : base()
         {
 			this.Volume = volume;
 			this.AreaRequired = areaRequired;

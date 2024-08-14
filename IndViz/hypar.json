@@ -50,10 +50,9 @@
       "type": "number"
     },
     {
-      "unit_type": "none",
       "name": "Construction Cost",
       "description": "Estimated in USD",
-      "type": "number"
+      "type": "string"
     },
     {
       "unit_type": "none",
@@ -107,6 +106,6 @@
   "repository_url": "https://github.com/hypar-io/function",
   "thumbnail_id": "6a349a21-61fd-4c62-86ce-2b89bc20daf4",
   "filters": {},
-  "last_updated": "2024-06-28T15:37:15.560076",
+  "last_updated": "2024-08-14T17:31:52.429952",
   "cli_version": "1.10.0"
 }

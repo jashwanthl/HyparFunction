@@ -27,7 +27,15 @@ namespace IndViz
             var Nitrogen = input.GigaWatts * 10.45070994;
             var CompressedAir = input.GigaWatts * 1741.6473;
             var PowerCap = input.GigaWatts * 2.972249627;
-            var Cost = (Area * 516.6449231) / 0.092903;
+            // Calculate the base cost
+            var baseCost = (Area * 516.6449231) / 0.092903;
+
+            // Calculate the range (-30% to +50%)
+            var minCost = baseCost * 0.7;
+            var maxCost = baseCost * 1.5;
+
+            // Convert to string in the format "$minCost - $maxCost"
+            var Cost = $"{minCost:C2} - {maxCost:C2}";
             var CellArea = Math.Round(Area * 0.000247105,2);
             var chilledWater = input.GigaWatts * 552.695309;
             var onePercent = (Area * 0.146779239) / 0.092903;
