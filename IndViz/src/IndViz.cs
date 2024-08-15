@@ -27,16 +27,14 @@ namespace IndViz
             var Nitrogen = input.GigaWatts * 10.45070994;
             var CompressedAir = input.GigaWatts * 1741.6473;
             var PowerCap = input.GigaWatts * 2.972249627;
+
             // Calculate the base cost
             var baseCost = (Area * 516.6449231) / 0.092903;
-
-            // Calculate the range (-30% to +50%)
             var minCost = baseCost * 0.7;
             var maxCost = baseCost * 1.5;
-
-            // Convert to string in the format "$minCost - $maxCost"
             var Cost = $"{minCost:C2} - {maxCost:C2}";
-            var CellArea = Math.Round(Area * 0.000247105,2);
+
+            var CellArea = Math.Round(Area * 0.000247105, 2);
             var chilledWater = input.GigaWatts * 552.695309;
             var onePercent = (Area * 0.146779239) / 0.092903;
             var tenPercent = (Area * 0.059151171) / 0.092903;
@@ -49,7 +47,7 @@ namespace IndViz
             var height = 20.0;
 
             // Define individual lengths for each cube
-            double[] lengths = { Area*0.05331213567/450, Area*0.1066242713/450, Area*0.03267973856/450, Area*0.159936407/450, Area*0.108814697/450, Area*0.2132485427/450, Area*0.05882352941/450, Area*0.267973856/450};
+            double[] lengths = { Area * 0.05331213567 / 450, Area * 0.1066242713 / 450, Area * 0.03267973856 / 450, Area * 0.159936407 / 450, Area * 0.108814697 / 450, Area * 0.2132485427 / 450, Area * 0.05882352941 / 450, Area * 0.267973856 / 450 };
 
             // Define individual colors for each cube
             Material[] materials = 
@@ -101,6 +99,7 @@ namespace IndViz
 
             // Generate 8 cubes and add to the model
             double offsetX = siteOffset;
+            Mass firstMass = null;
             for (int i = 0; i < 8; i++)
             {
                 // Define the rectangle for each cube using individual lengths
@@ -121,12 +120,21 @@ namespace IndViz
                 // Add the mass to the model
                 output.Model.AddElement(mass);
 
+                // Save the first mass for the triangle roof
+                if (i == 0)
+                {
+                    firstMass = mass;
+                }
+
                 // Update the offset for the next cube
                 offsetX += lengths[i];
             }
 
-            // Add parking lot
-            AddParkingLot(output.Model, siteBoundary, totalLength);
+            // Add triangle roof over the first mass
+            if (firstMass != null)
+            {
+                AddTriangleRoofManually(output.Model, siteOffset, lengths[0], height, totalWidth,totalLength);
+            }
 
             // Set the output volume
             output.Volume = totalLength * totalWidth * totalHeight;
@@ -146,6 +154,34 @@ namespace IndViz
                 AddId = LEGACY_IDENTITY_PREFIX
             };
             return site;
+        }
+
+        private static void AddTriangleRoofManually(Model model, double startX, double length, double height, double width, double totalLength)
+        {
+            // Manually define the points for the triangle based on known dimensions
+            var roofHeight = 30.0;
+
+            var trianglePoints = new List<Vector3>
+            {
+                new Vector3(startX, 0, height),  // Bottom left corner at the top of the mass
+                new Vector3(startX , width, height),  // Bottom right corner at the top of the mass
+                new Vector3(startX , width/2, height + roofHeight)  // Peak of the triangle
+            };
+
+            // Create the triangle profile
+            var triangleProfile = new Polygon(trianglePoints);
+
+            // Create a transparent material for the ghosted roof
+            var ghostedMaterial = new Material("GhostedRoof", new Color(1.0, 1.0, 1.0, 1));
+
+            // Create the extrusion along the Y-axis
+            var triangleSolid = new Extrude(triangleProfile, totalLength, Vector3.XAxis, false);
+
+            // Create the mass using the solid and add it to the model
+            var triangleMass = new Mass(triangleProfile, width, ghostedMaterial);
+            triangleMass.Representation = new Representation(new List<SolidOperation> { triangleSolid });
+
+            model.AddElement(triangleMass);
         }
 
         private static void AddParkingLot(Model model, Polygon siteBoundary, double buildingLength)
