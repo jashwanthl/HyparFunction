@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace IndViz
 {
+
     public static class IndViz
     {
         // Constants for the site and parking
@@ -133,7 +134,7 @@ namespace IndViz
             // Add triangle roof over the first mass
             if (firstMass != null)
             {
-                AddTriangleRoofManually(output.Model, siteOffset, lengths[0], height, totalWidth,totalLength);
+                AddTriangleRoofManually(output.Model, siteOffset, lengths[0], height, totalWidth, totalLength);
             }
 
             // Set the output volume
@@ -178,7 +179,7 @@ namespace IndViz
             var triangleSolid = new Extrude(triangleProfile, totalLength, Vector3.XAxis, false);
 
             // Create the mass using the solid and add it to the model
-            var triangleMass = new Mass(triangleProfile, width, ghostedMaterial);
+            var triangleMass = new Mass(triangleProfile, totalLength, ghostedMaterial);
             triangleMass.Representation = new Representation(new List<SolidOperation> { triangleSolid });
 
             model.AddElement(triangleMass);
