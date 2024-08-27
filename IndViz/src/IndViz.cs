@@ -101,6 +101,7 @@ namespace IndViz
             // Generate 8 cubes and add to the model
             double offsetX = siteOffset;
             Mass firstMass = null;
+            Mass lastMass = null;
             for (int i = 0; i < 8; i++)
             {
                 // Define the rectangle for each cube using individual lengths
@@ -126,21 +127,58 @@ namespace IndViz
                 {
                     firstMass = mass;
                 }
-
+                lastMass = mass;
                 // Update the offset for the next cube
                 offsetX += lengths[i];
             }
 
+             // Add the encompassing bounding box after the cubes are created
+            if (firstMass != null && lastMass != null)
+            {
+                // After creating the 8 cubes
+                CreateEncompassingBox(output.Model, siteOffset, siteOffset, totalLength, totalWidth, height);
+
+            }
             // Add triangle roof over the first mass
             if (firstMass != null)
             {
-                AddTriangleRoofManually(output.Model, siteOffset, lengths[0], height, totalWidth, totalLength);
+                AddTriangleRoofManually(output.Model,offsetX, siteOffset, lengths[0], height, totalWidth, totalLength);
             }
 
             // Set the output volume
             output.Volume = totalLength * totalWidth * totalHeight;
             return output;
         }
+
+        private static void CreateEncompassingBox(Model model, double startX, double startY, double totalLength, double totalWidth, double height)
+        {
+            // Define the vertices for the bounding box
+            var boundingBoxVertices = new List<Vector3>
+            {
+                new Vector3(startX, startY, 0),  // Bottom left corner
+                new Vector3(startX + totalLength, startY, 0),  // Bottom right corner
+                new Vector3(startX + totalLength, startY + totalWidth, 0),  // Top right corner
+                new Vector3(startX, startY + totalWidth, 0)  // Top left corner
+            };
+
+            // Ensure we have enough vertices to create a valid polygon
+            if (boundingBoxVertices.Count >= 3)
+            {
+                var boundingBoxPolygon = new Polygon(boundingBoxVertices);
+                var boundingBoxMaterial = new Material("BoundingBox", new Color(0.5, 0.5, 0.5, 0.5));  // Semi-transparent material
+
+                // Create the mass for the bounding box
+                var boundingBoxMass = new Mass(boundingBoxPolygon, height, boundingBoxMaterial);
+
+                // Add the bounding box to the model
+                model.AddElement(boundingBoxMass);
+            }
+            else
+            {
+                Console.WriteLine("Error: Not enough vertices to create a valid polygon.");
+            }
+        }
+
 
         private static Site CreateSite(Polygon perimeter)
         {
@@ -157,15 +195,15 @@ namespace IndViz
             return site;
         }
 
-        private static void AddTriangleRoofManually(Model model, double startX, double length, double height, double width, double totalLength)
+        private static void AddTriangleRoofManually(Model model, double startX, double startY, double length, double height, double width, double totalLength)
         {
             // Manually define the points for the triangle based on known dimensions
             var roofHeight = 30.0;
 
             var trianglePoints = new List<Vector3>
             {
-                new Vector3(startX, 0, height),  // Bottom left corner at the top of the mass
-                new Vector3(startX , width, height),  // Bottom right corner at the top of the mass
+                new Vector3(startX, startY, height),  // Bottom left corner at the top of the mass
+                new Vector3(startX , width + startY, height),  // Bottom right corner at the top of the mass
                 new Vector3(startX , width/2, height + roofHeight)  // Peak of the triangle
             };
 
@@ -173,10 +211,10 @@ namespace IndViz
             var triangleProfile = new Polygon(trianglePoints);
 
             // Create a transparent material for the ghosted roof
-            var ghostedMaterial = new Material("GhostedRoof", new Color(1.0, 1.0, 1.0, 1));
+            var ghostedMaterial = new Material("GhostedRoof", new Color(1.0, 1.0, 1.0, 0.6));
 
             // Create the extrusion along the Y-axis
-            var triangleSolid = new Extrude(triangleProfile, totalLength, Vector3.XAxis, false);
+            var triangleSolid = new Extrude(triangleProfile, totalLength, Vector3.XAxis * -1, false);
 
             // Create the mass using the solid and add it to the model
             var triangleMass = new Mass(triangleProfile, totalLength, ghostedMaterial);
