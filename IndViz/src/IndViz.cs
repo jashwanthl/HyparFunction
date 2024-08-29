@@ -13,6 +13,7 @@ namespace IndViz
         private static readonly Material SITE_MATERIAL = new Material("site", "#7ECD9F", 0.0f, 0.0f);
         private static readonly Material PARKING_MATERIAL = new Material("parking", "#CCCCCC", 0.0f, 0.0f);
         private static readonly Material CAR_MATERIAL = new Material("car", "#FF0000", 0.0f, 0.0f);
+        private static readonly Material GREEN_RECTANGLE_MATERIAL = new Material("GreenRectangle", new Color(0.0, 1.0, 0.0, 0.5));
         private const string LEGACY_IDENTITY_PREFIX = "legacy";
 
         /// <summary>
@@ -24,19 +25,33 @@ namespace IndViz
         public static IndVizOutputs Execute(Dictionary<string, Model> inputModels, IndVizInputs input)
         {
             var Area = input.GigaWatts * 83911.75931 * 0.092903;
+            // round the area to the nearest 10 and remove the decimals
+            Area = Math.Round(Area / 10) * 10;
             var Gas = input.GigaWatts * 11.91380039;
             var Nitrogen = input.GigaWatts * 10.45070994;
+            // round up the Nitrogen to the nearest 100 and remove the decimals
+            Nitrogen = Math.Round(Nitrogen / 100) * 100;
             var CompressedAir = input.GigaWatts * 1741.6473;
+            // round up the compressed air to the nearest 100 and remove the decimals
+            CompressedAir = Math.Round(CompressedAir / 100) * 100;
             var PowerCap = input.GigaWatts * 2.972249627;
-
+            // round up the power cap to the nearest 10 and remove the decimals
+            PowerCap = Math.Round(PowerCap / 10) * 10;
             // Calculate the base cost
             var baseCost = (Area * 516.6449231) / 0.092903;
+            // round the cost to the nearest 10000000 and remove the decimals
+            baseCost = Math.Round(baseCost / 10000000) * 10000000;
+
             var minCost = baseCost * 0.7;
             var maxCost = baseCost * 1.5;
             var Cost = $"{minCost:C2} - {maxCost:C2}";
 
             var CellArea = Math.Round(Area * 0.000247105, 2);
+            // round the cost to the nearest 10 and remove the decimals
+            CellArea = Math.Round(CellArea / 10) * 10;
             var chilledWater = input.GigaWatts * 552.695309;
+            // round the cost to the nearest 100 and remove the decimals
+            chilledWater = Math.Round(chilledWater / 100) * 100;
             var onePercent = (Area * 0.146779239) / 0.092903;
             var tenPercent = (Area * 0.059151171) / 0.092903;
             var thirtyFivePercent = (Area * 0.087909453) / 0.092903;
@@ -128,8 +143,15 @@ namespace IndViz
                     firstMass = mass;
                 }
                 lastMass = mass;
+                
+
+                // Add a green rectangle 50' up from the starting cube
+                AddGreenRectanglesWithGaps(output.Model, siteOffset, totalWidth, totalLength);
+                AddGreenRectanglesAlongWidth(output.Model, siteOffset + 450 + 50, siteOffset, 450, 110, totalLength);
+
                 // Update the offset for the next cube
                 offsetX += lengths[i];
+
             }
 
              // Add the encompassing bounding box after the cubes are created
@@ -145,6 +167,8 @@ namespace IndViz
                 AddTriangleRoofManually(output.Model,offsetX, siteOffset, lengths[0], height, totalWidth, totalLength);
             }
 
+            
+            
             // Set the output volume
             output.Volume = totalLength * totalWidth * totalHeight;
             return output;
@@ -178,6 +202,112 @@ namespace IndViz
                 Console.WriteLine("Error: Not enough vertices to create a valid polygon.");
             }
         }
+
+        private static void AddGreenRectanglesAlongWidth(Model model, double startY, double startX, double totalWidth, double rectangleWidth, double totalLength)
+        {
+            var rectangleLength = 50.0;  // The width of the rectangles
+            var gap = 5.0;
+
+            double currentY = startY;
+
+            while (currentY + rectangleLength <= startY + totalWidth)
+            {
+                // Define the rectangle vertices
+                var rectangleVertices = new List<Vector3>
+                {
+                    new Vector3(startX, currentY, 0),
+                    new Vector3(startX + rectangleWidth, currentY, 0),
+                    new Vector3(startX + rectangleWidth, currentY + rectangleLength, 0),
+                    new Vector3(startX, currentY + rectangleLength, 0)
+                };
+
+                var rectanglePolygon = new Polygon(rectangleVertices);
+
+                // Create a small extrusion to represent the rectangle as a flat surface
+                var rectangleMass = new Mass(rectanglePolygon, 0.1, GREEN_RECTANGLE_MATERIAL);
+
+                // Add the rectangle to the model
+                model.AddElement(rectangleMass);
+
+                // Move to the next position
+                currentY += rectangleLength + gap;
+            }
+
+            // If there is space left but not enough for a full rectangle, add a smaller one
+            double remainingLength = (startY + totalWidth) - currentY;
+            if (remainingLength > 0)
+            {
+                var rectangleVertices = new List<Vector3>
+                {
+                    new Vector3(startX, currentY, 0),
+                    new Vector3(startX + rectangleWidth, currentY, 0),
+                    new Vector3(startX + rectangleWidth, currentY + remainingLength, 0),
+                    new Vector3(startX, currentY + remainingLength, 0)
+                };
+
+                var rectanglePolygon = new Polygon(rectangleVertices);
+
+                // Create a small extrusion to represent the rectangle as a flat surface
+                var rectangleMass = new Mass(rectanglePolygon, 0.1, GREEN_RECTANGLE_MATERIAL);
+
+                // Add the rectangle to the model
+                model.AddElement(rectangleMass);
+            }
+        }
+
+
+        private static void AddGreenRectanglesWithGaps(Model model, double siteOffset, double totalWidth, double totalLength)
+        {
+            var rectangleWidth = 50.0;
+            var rectangleLength = 110.0;
+            var gap = 5.0;
+
+            double currentX = siteOffset;
+            double startY = siteOffset + 450 + 50;  // 50' up from the end of the Y-axis of the masses
+
+            while (currentX + rectangleLength <= siteOffset + totalLength)
+            {
+                // Define the rectangle vertices
+                var rectangleVertices = new List<Vector3>
+                {
+                    new Vector3(currentX, startY, 0),
+                    new Vector3(currentX + rectangleLength, startY, 0),
+                    new Vector3(currentX + rectangleLength, startY + rectangleWidth, 0),
+                    new Vector3(currentX, startY + rectangleWidth, 0)
+                };
+
+                var rectanglePolygon = new Polygon(rectangleVertices);
+
+                // Create a small extrusion to represent the rectangle as a flat surface
+                var rectangleMass = new Mass(rectanglePolygon, 0.1, GREEN_RECTANGLE_MATERIAL);
+
+                // Add the rectangle to the model
+                model.AddElement(rectangleMass);
+
+                // Move to the next position
+                currentX += rectangleLength + gap;
+            }
+            double remainingLength = siteOffset + totalLength - currentX;
+            if (remainingLength > 0)
+            {
+                var rectangleVertices = new List<Vector3>
+                {
+                    new Vector3(currentX, startY, 0),
+                    new Vector3(currentX + remainingLength, startY, 0),
+                    new Vector3(currentX + remainingLength, startY + rectangleWidth, 0),
+                    new Vector3(currentX, startY + rectangleWidth, 0)
+                };
+
+                var rectanglePolygon = new Polygon(rectangleVertices);
+
+                // Create a small extrusion to represent the rectangle as a flat surface
+                var rectangleMass = new Mass(rectanglePolygon, 0.1, GREEN_RECTANGLE_MATERIAL);
+
+                // Add the rectangle to the model
+                model.AddElement(rectangleMass);
+            }
+        }
+
 
 
         private static Site CreateSite(Polygon perimeter)
