@@ -65,17 +65,22 @@ namespace IndViz
             // Define individual lengths for each cube
             double[] lengths = { Area * 0.05331213567 / 450, Area * 0.1066242713 / 450, Area * 0.03267973856 / 450, Area * 0.159936407 / 450, Area * 0.108814697 / 450, Area * 0.2132485427 / 450, Area * 0.05882352941 / 450, Area * 0.267973856 / 450 };
 
+            // Create a variable to store the opacity of the cubes
+            var GableOpacity = input.GableRoofAndMassOpacity ? 0.6 : 1.0;
+            var AreaOpacity = input.AreaMassOpacity ? 0.6 : 1.0;
+
             // Define individual colors for each cube
+            
             Material[] materials = 
             {
-                new Material("Red", new Color(1.0, 0.0, 0.0, 0.5)),
-                new Material("Green", new Color(0.0, 1.0, 0.0, 0.5)),
-                new Material("Blue", new Color(0.0, 0.0, 1.0, 0.5)),
-                new Material("Yellow", new Color(1.0, 1.0, 0.0, 0.5)),
-                new Material("Purple", new Color(0.5, 0.0, 0.5, 0.5)),
-                new Material("Orange", new Color(1.0, 0.5, 0.0, 0.5)),
-                new Material("Pink", new Color(1.0, 0.0, 1.0, 0.5)),
-                new Material("Cyan", new Color(0.0, 1.0, 1.0, 0.5))
+                new Material("Red", new Color(1.0, 0.0, 0.0, AreaOpacity)),
+                new Material("Green", new Color(0.0, 1.0, 0.0, AreaOpacity)),
+                new Material("Blue", new Color(0.0, 0.0, 1.0, AreaOpacity)),
+                new Material("Yellow", new Color(1.0, 1.0, 0.0,AreaOpacity)),
+                new Material("Purple", new Color(0.5, 0.0, 0.5, AreaOpacity)),
+                new Material("Orange", new Color(1.0, 0.5, 0.0, AreaOpacity)),
+                new Material("Pink", new Color(1.0, 0.0, 1.0, AreaOpacity)),
+                new Material("Cyan", new Color(0.0, 1.0, 1.0, AreaOpacity))
             };
 
             // Define labels for each cube
@@ -107,11 +112,14 @@ namespace IndViz
                 new Vector3(-siteOffset, siteWidth - siteOffset, 0)
             });
 
-            // Create the site element using the CreateSite function
-            var site = CreateSite(siteBoundary);
+            //Create the site element using the CreateSite function
+            //  if SiteVisibility is true then the site will be visible
+            if (input.SiteVisibility)
+            {
+                var site = CreateSite(siteBoundary);
+                output.Model.AddElement(site);
+            }
 
-            // Add the site to the model
-            output.Model.AddElement(site);
 
             // Generate 8 cubes and add to the model
             double offsetX = siteOffset;
@@ -144,10 +152,13 @@ namespace IndViz
                 }
                 lastMass = mass;
                 
-
-                // Add a green rectangle 50' up from the starting cube
-                AddGreenRectanglesWithGaps(output.Model, siteOffset, totalWidth, totalLength);
-                AddGreenRectanglesAlongWidth(output.Model, siteOffset + 450 + 50, siteOffset, 450, 110, totalLength);
+                if (input.FootballFieldVisibility)
+                {
+                    // Add a green rectangle 50' up from the starting cube
+                    AddGreenRectanglesWithGaps(output.Model, siteOffset, totalWidth, totalLength);
+                    AddGreenRectanglesAlongWidth(output.Model, siteOffset + 450 + 50, siteOffset, 450, 110, totalLength);
+                }
+                
 
                 // Update the offset for the next cube
                 offsetX += lengths[i];
@@ -158,13 +169,13 @@ namespace IndViz
             if (firstMass != null && lastMass != null)
             {
                 // After creating the 8 cubes
-                CreateEncompassingBox(output.Model, siteOffset, siteOffset, totalLength, totalWidth, height);
+                CreateEncompassingBox(output.Model, siteOffset, siteOffset, totalLength, totalWidth, height, GableOpacity);
 
             }
             // Add triangle roof over the first mass
             if (firstMass != null)
             {
-                AddTriangleRoofManually(output.Model,offsetX, siteOffset, lengths[0], height, totalWidth, totalLength);
+                AddTriangleRoofManually(output.Model,offsetX, siteOffset, lengths[0], height, totalWidth, totalLength, GableOpacity);
             }
 
             
@@ -174,7 +185,7 @@ namespace IndViz
             return output;
         }
 
-        private static void CreateEncompassingBox(Model model, double startX, double startY, double totalLength, double totalWidth, double height)
+        private static void CreateEncompassingBox(Model model, double startX, double startY, double totalLength, double totalWidth, double height, double MaterialOpacity)
         {
             // Define the vertices for the bounding box
             var boundingBoxVertices = new List<Vector3>
@@ -189,7 +200,7 @@ namespace IndViz
             if (boundingBoxVertices.Count >= 3)
             {
                 var boundingBoxPolygon = new Polygon(boundingBoxVertices);
-                var boundingBoxMaterial = new Material("BoundingBox", new Color(0.5, 0.5, 0.5, 0.5));  // Semi-transparent material
+                var boundingBoxMaterial = new Material("BoundingBox", new Color(0.5, 0.5, 0.5, MaterialOpacity));  // Semi-transparent material
 
                 // Create the mass for the bounding box
                 var boundingBoxMass = new Mass(boundingBoxPolygon, height, boundingBoxMaterial);
@@ -325,7 +336,7 @@ namespace IndViz
             return site;
         }
 
-        private static void AddTriangleRoofManually(Model model, double startX, double startY, double length, double height, double width, double totalLength)
+        private static void AddTriangleRoofManually(Model model, double startX, double startY, double length, double height, double width, double totalLength, double MaterialOpacity)
         {
             // Manually define the points for the triangle based on known dimensions
             var roofHeight = 30.0;
@@ -341,7 +352,7 @@ namespace IndViz
             var triangleProfile = new Polygon(trianglePoints);
 
             // Create a transparent material for the ghosted roof
-            var ghostedMaterial = new Material("GhostedRoof", new Color(1.0, 1.0, 1.0, 0.6));
+            var ghostedMaterial = new Material("GhostedRoof", new Color(1.0, 1.0, 1.0, MaterialOpacity));
 
             // Create the extrusion along the Y-axis
             var triangleSolid = new Extrude(triangleProfile, totalLength, Vector3.XAxis * -1, false);

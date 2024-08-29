@@ -8,6 +8,10 @@ The IndViz function.
 |---|---|---|
 |GigaWatts|number|Production Capacity|
 |ConstructionYear|number|Year the construction will begin to account for inflation ( 4%)|
+|GableRoofAndMassOpacity|boolean|Toggle between Ghosted and fully Opaque|
+|FootballFieldVisibility|boolean|Toggle between Ghosted and fully Opaque|
+|AreaMassOpacity|boolean|Toggle between Ghosted and fully Opaque|
+|SiteVisibility|boolean||
 
 
 <br>

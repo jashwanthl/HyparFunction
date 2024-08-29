@@ -29,17 +29,21 @@ namespace IndViz
     {
         [Newtonsoft.Json.JsonConstructor]
         
-        public IndVizInputs(double @gigaWatts, double @constructionYear, Dictionary<string, string> modelInputKeys, string gltfKey, string elementsKey, string ifcKey):
+        public IndVizInputs(double @gigaWatts, double @constructionYear, bool @gableRoofAndMassOpacity, bool @footballFieldVisibility, bool @areaMassOpacity, bool @siteVisibility, Dictionary<string, string> modelInputKeys, string gltfKey, string elementsKey, string ifcKey):
         base(modelInputKeys, gltfKey, elementsKey, ifcKey)
         {
             var validator = Validator.Instance.GetFirstValidatorForType<IndVizInputs>();
             if(validator != null)
             {
-                validator.PreConstruct(new object[]{ @gigaWatts, @constructionYear});
+                validator.PreConstruct(new object[]{ @gigaWatts, @constructionYear, @gableRoofAndMassOpacity, @footballFieldVisibility, @areaMassOpacity, @siteVisibility});
             }
         
             this.GigaWatts = @gigaWatts;
             this.ConstructionYear = @constructionYear;
+            this.GableRoofAndMassOpacity = @gableRoofAndMassOpacity;
+            this.FootballFieldVisibility = @footballFieldVisibility;
+            this.AreaMassOpacity = @areaMassOpacity;
+            this.SiteVisibility = @siteVisibility;
         
             if(validator != null)
             {
@@ -56,6 +60,21 @@ namespace IndViz
         [Newtonsoft.Json.JsonProperty("ConstructionYear", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.Range(2025D, 2055D)]
         public double ConstructionYear { get; set; } = 2026D;
+    
+        /// <summary>Toggle between Ghosted and fully Opaque</summary>
+        [Newtonsoft.Json.JsonProperty("GableRoofAndMassOpacity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool GableRoofAndMassOpacity { get; set; } = false;
+    
+        /// <summary>Toggle between Ghosted and fully Opaque</summary>
+        [Newtonsoft.Json.JsonProperty("FootballFieldVisibility", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool FootballFieldVisibility { get; set; } = false;
+    
+        /// <summary>Toggle between Ghosted and fully Opaque</summary>
+        [Newtonsoft.Json.JsonProperty("AreaMassOpacity", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool AreaMassOpacity { get; set; } = false;
+    
+        [Newtonsoft.Json.JsonProperty("SiteVisibility", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public bool SiteVisibility { get; set; } = false;
     
     }
 }

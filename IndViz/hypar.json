@@ -27,6 +27,29 @@
         "$hyparOrder": 1,
         "$hyparUnitType": "none",
         "minimum": 2025
+      },
+      "GableRoofAndMassOpacity": {
+        "description": "Toggle between Ghosted and fully Opaque",
+        "default": false,
+        "type": "boolean",
+        "$hyparOrder": 3
+      },
+      "FootballFieldVisibility": {
+        "description": "Toggle between Ghosted and fully Opaque",
+        "default": false,
+        "type": "boolean",
+        "$hyparOrder": 4
+      },
+      "AreaMassOpacity": {
+        "description": "Toggle between Ghosted and fully Opaque",
+        "default": false,
+        "type": "boolean",
+        "$hyparOrder": 2
+      },
+      "SiteVisibility": {
+        "type": "boolean",
+        "$hyparOrder": 5,
+        "default": false
       }
     }
   },
@@ -106,6 +129,6 @@
   "repository_url": "https://github.com/hypar-io/function",
   "thumbnail_id": "6a349a21-61fd-4c62-86ce-2b89bc20daf4",
   "filters": {},
-  "last_updated": "2024-08-27T16:53:27.38125",
-  "cli_version": "1.10.0"
+  "last_updated": "2024-08-29T19:58:01.431708",
+  "cli_version": "1.12.0"
 }
